@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero" data-aos="fade-down">
+  <h1>Find Delicious Recipes 🍽️</h1>
+  <form method="POST" class="search-form" data-aos="fade-up">
+    <input type="text" name="ingredients" placeholder="Enter ingredients (e.g., tomato, cheese)">
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+{% if recipes %}
+<div class="recipe-container">
+  {% for recipe in recipes %}
+    <div class="recipe-box" data-aos="zoom-in">
+      <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+      <div class="recipe-content">
+        <h2>{{ recipe.title }}</h2>
+        <div class="scroll-section">
+          <h4>Ingredients</h4>
+          <ul>
+            {% for ingredient in recipe.ingredients %}
+              <li>{{ ingredient }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="scroll-section">
+          <h4>Instructions</h4>
+          <p>{{ recipe.instructions|safe }}</p>
+        </div>
+        {% if user %}
+          <a href="/favorite/{{ recipe.id }}" class="fav-btn">❤️ Add to Favorites</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
